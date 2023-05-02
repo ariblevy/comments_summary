@@ -1,5 +1,5 @@
 const {google} = require('googleapis');
-const API_KEY = "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";
+const API_KEY = process.env.API_KEY; 
 const fs = require('fs');
 
 const youtube = google.youtube({
