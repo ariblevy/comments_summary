@@ -1,11 +1,14 @@
 const {google} = require('googleapis');
-const API_KEY = process.env.API_KEY; 
+const fetch = require('node-fetch');
+require('dotenv').config();
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY; 
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 const fs = require('fs');
-require ('dotenv').config();
+
 
 const youtube = google.youtube({
 	version: 'v3',
-	auth: 'AIzaSyD2tndstDQhQF3Hz0ZQDu2FYRa3SMA85ig'
+	auth: GOOGLE_API_KEY,
 });
 
 async function getComments(videoId) {
@@ -19,7 +22,6 @@ async function getComments(videoId) {
 			maxResults: 100,
 			pageToken: nextPageToken
 		});
-	
 	const comments = res.data.items.map(item => item.snippet.topLevelComment.snippet.textOriginal);	
 
 	allComments = allComments.concat(comments);
@@ -56,7 +58,7 @@ async function getComments(videoId) {
 	const options = {
 		method: 'POST',
 		headers: {
-			'Authorization': `Bearer ${API_KEY}`,
+			'Authorization': `Bearer ${OPENAI_API_KEY}`,
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
